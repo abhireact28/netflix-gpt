@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { auth } from '../utils/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser, removeUser } from '../utils/userSlice';
 import { LOGO, SUPPORTED_LANGUAGES } from '../utils/constants';
@@ -52,25 +52,30 @@ const Header = () => {
   }
 
   return (
-    <div className='absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between'>
-      <img className='w-44' src= {LOGO} alt="logo" />
-      { user && (
-      <div className='flex p-2'>
-      { showGptSearch && <select className='p-2 m-2 bg-gray-900 text-white' onChange={handleLanguageChange}>
-        {SUPPORTED_LANGUAGES.map((lang) => (
-          <option key={lang.identifier} value={lang.identifier}>{lang.name}</option>
-        ))}
-      </select>}
-      <button onClick={handleGptSearchClick}  className='py-2 px-4 mx-4 my-2 bg-purple-900 text-white rounded-lg'>
-      {showGptSearch ? "HomePage" : "GPT Search"}
-      </button>
-        <img src={user?.photoURL} alt="img" />
-        <button onClick={handleSignOut} className='font-bold text-white'>
-        (Sign Out)
+    <div className='absolute w-[100vw]  z-20 px-2 md:px-8 py-2 bg-gradient-to-b from-black  flex justify-between'>
+    <img
+      className=' w-24 h-14 md:w-40 md:h-24'
+      src={LOGO}
+      alt='logo'
+    />
+    {user && (
+      <div className='flex px-2 py-2 items-center'>  
+       { showGptSearch && <select className='p-1 text-xs md:text-lg md:p-2 bg-gray-900 text-white m-2' onChange={handleGptSearchClick}>
+        {SUPPORTED_LANGUAGES.map((lang)=><option key={lang.identifier} value={lang.identifier}>{lang.name}</option>)}
+        </select>}
+        <button className='bg-purple-800 text-white md:p-2  p-1 text-xs md:text-lg mr-2 rounded-lg' onClick={handleLanguageChange}>{showGptSearch ? "HomePage":"GPT Search"}</button>
+     <Link to="/moviecart" ><button className='bg-purple-800 text-white md:p-2  p-1 text-xs md:text-lg  mr-4 rounded-lg'> WatchLater </button></Link>
+       
+        <img className=' w-5 h-5 mr-1 md:w-8 md:h-8 ' alt='user pic' src={user?.photoURL} />
+      
+        <button className='text-white md:text-lg text-[10px]' onClick={handleSignOut}>
+          Sign Out
         </button>
+        
+       
       </div>
-      )}
-    </div>
+    )}
+  </div>
   );
 }
 

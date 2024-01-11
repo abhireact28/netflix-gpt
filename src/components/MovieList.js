@@ -1,18 +1,36 @@
-import React from 'react';
-import MovieCard from "./MovieCard"
+import MovieCard from './MovieCard'
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const MovieList = ({title, movies}) => {
-  // console.log(movies);
+const MovieList = ({ title, movies }) => {
+
+  const handleLeft = () => {
+    let scroller = document.getElementById(title);
+    scroller.scrollLeft = scroller.scrollLeft - 500;
+  };
+
+  const handleRight = () => {
+    let scroller = document.getElementById(title);
+    scroller.scrollLeft = scroller.scrollLeft + 500;
+  };
+
+
   return (
-    <div className='px-6'>
-    <h1 className='text-3xl py-4 text-white'>{title}</h1>
-    <div className='flex overflow-x-scroll'>
-    <div className='flex'>
-    {movies?.map((movie) => <MovieCard key={movie.id} posterPath={movie.poster_path}/>)}
+    <div className='  overflow-x-hidden relative '>
+      <h2 className='text-2xl mt-1 md:mt-5 font-medium py-3 text-white'>{title}</h2>
+      <div className='  absolute  flex justify-between mt-36 w-[1220px] '>
+        <button className='hidden md:inline-block  pr-4 text-white bg-gradient-to-r from-black' onClick={handleLeft}><FaChevronLeft size={30} /></button>
+        <button className=' hidden md:inline-block pr-4  text-white  bg-gradient-to-l from-black' onClick={handleRight}><FaChevronRight size={30} /></button>
+      </div>
+      <div id={title} className='flex overflow-x-scroll no-scrollbar scroll-smooth'>
+
+        <div className="flex ">
+          {movies?.map((movie) => <MovieCard key={movie.id} posterPath={movie.poster_path} id={movie.id} title={movie.original_title} overview={movie.overview}/>)}
+
+        </div>
+      </div>
+
     </div>
-    </div>
-    </div>
-  );
+  )
 }
 
-export default MovieList;
+export default MovieList
